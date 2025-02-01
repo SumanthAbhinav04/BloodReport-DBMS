@@ -123,7 +123,7 @@ Clone the repository:
 
 
 
-git clone https://github.com/yourusername/BloodReport-DBMS.git
+git clone https://github.com/SumanthAbhinav04/BloodReport-DBMS.git
 
 
 Set up the database:
