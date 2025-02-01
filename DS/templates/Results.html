@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, #b30000, #800000);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        main h2 {
+            color: #b30000;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 900px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #b30000;
+            color: white;
+        }
+
+        td {
+            background-color: white;
+        }
+
+        /* Back to Home Button */
+        .btn {
+            background-color: #b30000;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: inline-block;
+            width: 250px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #800000;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn[aria-label="Back to Home"] {
+            display: inline-block;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #b30000;
+            color: white;
+            text-align: center;
+            padding: 15px 10px;
+            margin-top: auto;
+            box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #ffcccc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Result Message Styles */
+        .result-message {
+            font-size: 1.2rem;
+            color: #b30000;
+            margin: 20px 0;
+        }
+
+        .result-message.success {
+            color: green;
+        }
+
+        .result-message.error {
+            color: red;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .btn {
+                width: 90%;
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            main h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Blood Report Dashboard</h1>
+        <p>Efficiently manage and analyze blood test data</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Results</h2>
+
+        <!-- Display Result Message if Available -->
+        {% if result_message %}
+        <p class="result-message {{ 'success' if 'successfully created' in result_message else 'error' }}">
+            {{ 'Appointment Clashing with Existing Date and Time' if '1644 (45000)' in result_message else result_message }}
+         </p>
+        {% endif %}
+
+        <!-- Query Results Table (if data is available) -->
+        {% if columns and data %}
+        <div class="table-container">
+            <table>
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data %}
+                <tr>
+                    {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% else %}
+        <p>No data available.</p>
+        {% endif %}
+
+        <!-- Back to Home Button -->
+        <a href="{{ url_for('home') or '/' }}" class="btn" aria-label="Back to Home">Back to Home</a>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Blood Report System. All rights reserved. | <a href="/privacy">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
